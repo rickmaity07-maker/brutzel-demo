@@ -1,0 +1,171 @@
+@import "tailwindcss";
+
+/*
+  Brutzel tokens.
+  Shape rule: interactive controls are full pills, cards and photos 14px, inputs 10px.
+  One accent (ketchup). Pickle green only marks state (open now, ready, veggie).
+*/
+:root {
+  --paper: #f4f5f2;
+  --card: #ffffff;
+  --ink: #1c1f1a;
+  --muted: #5a6056;
+  --line: rgb(28 31 26 / 0.12);
+  --ketchup: #d62b1f;
+  --ketchup-ink: #ffffff;
+  --pickle: #56721f;
+  --grill: #1c1f1a;
+  --grill-ink: #f4f5f2;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #131512;
+    --card: #1c1f1a;
+    --ink: #eceee8;
+    --muted: #a4aa9f;
+    --line: rgb(236 238 232 / 0.14);
+    --ketchup: #e8412f;
+    --ketchup-ink: #ffffff;
+    --pickle: #9cbc4f;
+    --grill: #0c0d0b;
+    --grill-ink: #eceee8;
+  }
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-card: var(--card);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-ketchup: var(--ketchup);
+  --color-ketchup-ink: var(--ketchup-ink);
+  --color-pickle: var(--pickle);
+  --color-grill: var(--grill);
+  --color-grill-ink: var(--grill-ink);
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-shoulders), Impact, sans-serif;
+  --radius-card: 14px;
+  --radius-field: 10px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+}
+
+:focus-visible {
+  outline: 3px solid var(--ketchup);
+  outline-offset: 2px;
+}
+
+/* Component classes live in a layer so Tailwind utilities (w-24, px-4, ...) can override them. */
+@layer components {
+.display {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 72;
+  font-weight: 800;
+  line-height: 0.92;
+  letter-spacing: -0.01em;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+  padding: 0.85rem 1.5rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition:
+    transform 0.15s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.2s;
+}
+.btn:active {
+  transform: translateY(1px) scale(0.98);
+}
+.btn-primary {
+  background: var(--ketchup);
+  color: var(--ketchup-ink);
+}
+.btn-primary:hover {
+  background: color-mix(in oklab, var(--ketchup) 88%, black);
+}
+.btn-ghost {
+  border: 1.5px solid var(--ink);
+  color: var(--ink);
+}
+.btn-ghost:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+.btn:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.field {
+  width: 100%;
+  border-radius: var(--radius-field);
+  border: 1.5px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+  padding: 0.75rem 0.9rem;
+}
+.field::placeholder {
+  color: color-mix(in oklab, var(--muted) 85%, transparent);
+}
+.field:focus {
+  border-color: var(--ink);
+  outline: none;
+}
+.field[aria-invalid="true"] {
+  border-color: var(--ketchup);
+}
+}
+
+dialog::backdrop {
+  background: rgb(12 13 11 / 0.55);
+}
+
+/* Intro: hidden once seen (set before paint by the head script); failsafe hides it after 7s if JS never runs. */
+html[data-intro-seen] .intro {
+  display: none;
+}
+.intro {
+  animation: intro-failsafe 0s linear 7s forwards;
+}
+.intro-layer,
+.intro-letter {
+  visibility: hidden;
+}
+@keyframes intro-failsafe {
+  to {
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+/* Scroll-snap rail for the line-up. */
+.rail {
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.rail::-webkit-scrollbar {
+  display: none;
+}
+.rail > * {
+  scroll-snap-align: start;
+}

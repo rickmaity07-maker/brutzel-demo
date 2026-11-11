@@ -1,0 +1,36 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useLang } from "@/components/LangProvider";
+
+export function AdminNav() {
+  const { t } = useLang();
+  const path = usePathname();
+  const links = [
+    ["/admin", t.admin.nav.orders],
+    ["/admin/kitchen", t.admin.nav.kitchen],
+    ["/admin/menu", t.admin.nav.menu],
+    ["/admin/hours", t.admin.nav.hours],
+    ["/admin/sales", t.admin.nav.sales],
+  ] as const;
+  return (
+    <nav className="rail flex gap-1 overflow-x-auto" aria-label="Admin">
+      {links.map(([href, label]) => {
+        const active = path === href;
+        return (
+          <Link
+            key={href}
+            href={href}
+            aria-current={active ? "page" : undefined}
+            className={`shrink-0 rounded-full px-3 py-1.5 text-sm font-medium ${
+              active ? "bg-ink text-paper" : "text-muted hover:text-ink"
+            }`}
+          >
+            {label}
+          </Link>
+        );
+      })}
+    </nav>
+  );
+}
