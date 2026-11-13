@@ -100,7 +100,8 @@ p {
     font-weight: 600;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--ketchup);
+    /* small text on the dark ground: a lighter tint of the accent keeps it above 4.5:1 */
+    color: color-mix(in oklab, var(--ketchup) 78%, white);
   }
 
   .btn {
