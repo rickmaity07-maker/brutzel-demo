@@ -37,7 +37,7 @@ const layers = {
   },
   patty: {
     h: 42,
-    overlap: 6,
+    overlap: 3,
     svg: (
       <>
         <defs>
@@ -57,7 +57,7 @@ const layers = {
   },
   veggiePatty: {
     h: 42,
-    overlap: 6,
+    overlap: 3,
     svg: (
       <>
         <defs>
@@ -75,7 +75,7 @@ const layers = {
   },
   cheese: {
     h: 22,
-    overlap: 10,
+    overlap: 5,
     svg: (
       <path
         d="M4 4 H316 L310 10 L292 10 L286 22 L278 10 L210 10 L200 20 L190 10 L120 10 L112 22 L104 10 L40 10 L32 18 L24 10 L8 10 Z"
@@ -88,7 +88,7 @@ const layers = {
   },
   bacon: {
     h: 20,
-    overlap: 6,
+    overlap: 1,
     svg: (
       <>
         <path d="M2 10 Q28 0 54 10 T106 10 T158 10 T210 10 T262 10 T318 10 L318 18 Q292 8 266 18 T214 18 T162 18 T110 18 T58 18 T2 18 Z" fill="#a8392a" />
@@ -98,7 +98,7 @@ const layers = {
   },
   avocado: {
     h: 20,
-    overlap: 6,
+    overlap: 1,
     svg: (
       <>
         {[38, 98, 158, 218, 278].map((x) => (
@@ -112,7 +112,7 @@ const layers = {
   },
   lettuce: {
     h: 24,
-    overlap: 8,
+    overlap: 3,
     svg: (
       <path
         d="M0 12 Q12 2 24 12 T48 12 T72 12 T96 12 T120 12 T144 12 T168 12 T192 12 T216 12 T240 12 T264 12 T288 12 T320 12 L314 20 Q300 14 286 22 T258 20 T230 22 T202 20 T174 22 T146 20 T118 22 T90 20 T62 22 T34 20 T6 20 Z"
@@ -124,7 +124,7 @@ const layers = {
   },
   tomato: {
     h: 18,
-    overlap: 6,
+    overlap: 1,
     svg: (
       <>
         {[62, 160, 258].map((x) => (
@@ -138,7 +138,7 @@ const layers = {
   },
   jalapenos: {
     h: 16,
-    overlap: 6,
+    overlap: 1,
     svg: (
       <>
         {[50, 104, 160, 216, 270].map((x) => (
@@ -152,7 +152,7 @@ const layers = {
   },
   topBun: {
     h: 100,
-    overlap: 6,
+    overlap: 3,
     svg: (
       <>
         <defs>
