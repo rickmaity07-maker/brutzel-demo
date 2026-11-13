@@ -1,7 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { CheckCircle, Clock, Moped } from "@phosphor-icons/react";
+import { BRAND, brandAddress } from "@/brand.config";
 import { useLang } from "@/components/LangProvider";
+import { fill } from "@/lib/i18n";
 import type { OrderMode, OrderStatus } from "@/lib/types";
 import { FramePlayer } from "./FramePlayer";
 
@@ -10,9 +13,11 @@ const CLIP_AT: Record<string, number> = { new: 0.3, preparing: 0.62, ready: 0.86
 
 const POLL_MS = 4000;
 
-export function StatusTracker(props: { code: string; mode: OrderMode; initial: OrderStatus }) {
-  const { t } = useLang();
+export function StatusTracker(props: { code: string; mode: OrderMode; initial: OrderStatus; createdAt: string }) {
+  const { t, lang } = useLang();
   const [status, setStatus] = useState<OrderStatus>(props.initial);
+  // set after mount only, so server and client render the same markup
+  const [now, setNow] = useState<number | null>(null);
   const steps: OrderStatus[] =
     props.mode === "delivery" ? ["new", "preparing", "out", "done"] : ["new", "preparing", "ready", "done"];
   const finished = status === "done" || status === "cancelled";
@@ -35,6 +40,15 @@ export function StatusTracker(props: { code: string; mode: OrderMode; initial: O
       clearInterval(id);
     };
   }, [props.code, finished]);
+
+  useEffect(() => {
+    setNow(Date.now());
+    const id = setInterval(() => setNow(Date.now()), 15000);
+    return () => clearInterval(id);
+  }, []);
+
+  const dueAt = new Date(props.createdAt).getTime() + BRAND.prepMinutes[props.mode] * 60000;
+  const minutesLeft = now === null ? null : Math.max(0, Math.ceil((dueAt - now) / 60000));
 
   // "ready" on a delivery order means it's waiting for the driver: show it as still preparing.
   const shown = props.mode === "delivery" && status === "ready" ? "preparing" : status;
@@ -73,10 +87,38 @@ export function StatusTracker(props: { code: string; mode: OrderMode; initial: O
           );
         })}
       </ol>
-      <p className="mt-5 text-lg font-medium" aria-live="polite">
-        {status === "ready" && props.mode === "pickup" ? t.status.readyPickup : t.status.steps[shown]}
-      </p>
-      {!finished ? <p className="mt-1 text-sm text-muted">{t.status.live}</p> : null}
+      {(status === "ready" && props.mode === "pickup") || status === "out" || status === "done" ? (
+        <div
+          className="mt-6 flex items-start gap-4 rounded-[var(--radius-card)] border border-pickle/40 bg-pickle/10 p-5"
+          aria-live="polite"
+        >
+          {status === "out" ? (
+            <Moped size={34} weight="duotone" className="shrink-0 text-pickle" aria-hidden />
+          ) : (
+            <CheckCircle size={34} weight="duotone" className="shrink-0 text-pickle" aria-hidden />
+          )}
+          <div>
+            <p className="display text-3xl">
+              {status === "out" ? t.eta.outTitle : status === "done" ? t.eta.doneTitle : t.eta.readyTitle}
+            </p>
+            {status === "ready" ? (
+              <p className="mt-1 text-ink/85">{fill(t.eta.readyBody, { address: brandAddress(lang) })}</p>
+            ) : null}
+          </div>
+        </div>
+      ) : (
+        <div className="mt-5 flex items-center gap-3" aria-live="polite">
+          <Clock size={22} weight="duotone" className="shrink-0 text-ketchup" aria-hidden />
+          <p className="text-lg font-medium">
+            {minutesLeft === null
+              ? t.status.steps[shown]
+              : minutesLeft <= 1
+                ? t.eta.soon
+                : fill(props.mode === "pickup" ? t.eta.pickup : t.eta.delivery, { min: minutesLeft })}
+          </p>
+        </div>
+      )}
+      {!finished ? <p className="mt-2 text-sm text-muted">{t.status.live}</p> : null}
     </div>
   );
 }

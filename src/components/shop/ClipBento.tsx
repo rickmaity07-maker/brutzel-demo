@@ -73,6 +73,7 @@ export function ClipBento(props: {
       {/* embers rise behind the grid; screen blend drops the clip's black */}
       <ClipVideo
         src="/video/bg-embers.mp4"
+        srcMobile="/video/bg-embers-m.mp4"
         poster="/video/bg-embers.webp"
         loop
         className="-z-10 opacity-70 mix-blend-screen"

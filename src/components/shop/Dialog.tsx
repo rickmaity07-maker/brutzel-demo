@@ -30,6 +30,7 @@ export function Dialog(props: {
 
   return (
     <dialog
+      data-lenis-prevent
       ref={ref}
       aria-label={props.label}
       onClose={onClose}

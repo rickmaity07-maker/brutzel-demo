@@ -5,11 +5,12 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { coverOn, createFrameSequence, featherEdges, type Focus } from "@/lib/frameSequence";
+import { useMotionPaused } from "@/lib/motion";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 type Props = {
-  /** folder under /public, e.g. "/frames/bacon" */
+  /** folder under /public, e.g. "/frames/fries" */
   base: string;
   count: number;
   bg: string;
@@ -45,8 +46,12 @@ export function FramePlayer({
   const root = useRef<HTMLSpanElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const api = useRef<{ goTo: (p: number) => void } | null>(null);
+  const playTween = useRef<gsap.core.Tween | null>(null);
   const progressRef = useRef(progress);
   progressRef.current = progress;
+  const paused = useMotionPaused();
+  const pausedRef = useRef(paused);
+  pausedRef.current = paused;
 
   useGSAP(
     () => {
@@ -67,6 +72,18 @@ export function FramePlayer({
       const state = { frame: 0 };
       const render = () => seq.set(state.frame);
 
+      // Fetch the full sequence only once the clip gets close to the viewport.
+      let ready: Promise<void> | null = null;
+      const warm = () => (ready ??= seq.preload());
+      const near = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry.isIntersecting) return;
+          near.disconnect();
+          warm();
+        },
+        { rootMargin: "800px 0px" },
+      );
+
       const mm = gsap.matchMedia();
       mm.add(
         { motion: "(prefers-reduced-motion: no-preference)", still: "(prefers-reduced-motion: reduce)" },
@@ -74,16 +91,16 @@ export function FramePlayer({
           const still = Boolean(c.conditions?.still);
 
           if (mode === "progress") {
-            const ready = seq.preload();
+            warm();
             api.current = {
               goTo: (p) => {
                 const target = Math.round(Math.max(0, Math.min(1, p)) * last);
-                if (still) {
+                if (still || pausedRef.current) {
                   state.frame = target;
                   seq.load(target).then(render);
                   return;
                 }
-                ready.then(() => gsap.to(state, { frame: target, duration: 2.2, ease: "power2.inOut", onUpdate: render }));
+                warm().then(() => gsap.to(state, { frame: target, duration: 2.2, ease: "power2.inOut", onUpdate: render }));
               },
             };
             seq.load(0).then(render);
@@ -99,7 +116,7 @@ export function FramePlayer({
             return;
           }
           seq.load(0).then(render);
-          const ready = seq.preload();
+          near.observe(el);
 
           if (mode === "scrub") {
             gsap.to(state, {
@@ -118,9 +135,15 @@ export function FramePlayer({
               if (!entry.isIntersecting || started) return;
               started = true;
               io.disconnect();
-              Promise.race([ready, new Promise((r) => setTimeout(r, 2500))]).then(() =>
-                gsap.to(state, { frame: last, duration: count / fps, ease: "none", onUpdate: render }),
-              );
+              Promise.race([warm(), new Promise((r) => setTimeout(r, 2500))]).then(() => {
+                playTween.current = gsap.to(state, {
+                  frame: last,
+                  duration: count / fps,
+                  ease: "none",
+                  onUpdate: render,
+                  paused: pausedRef.current,
+                });
+              });
             },
             { threshold: 0.35 },
           );
@@ -130,8 +153,10 @@ export function FramePlayer({
       );
 
       return () => {
+        near.disconnect();
         mm.revert();
         seq.destroy();
+        playTween.current = null;
       };
     },
     { scope: root, dependencies: [base, count, bg, mode] },
@@ -140,6 +165,13 @@ export function FramePlayer({
   useEffect(() => {
     api.current?.goTo(progress);
   }, [progress]);
+
+  useEffect(() => {
+    const tw = playTween.current;
+    if (!tw) return;
+    if (paused) tw.pause();
+    else tw.resume();
+  }, [paused]);
 
   return (
     // a span so it can sit inside buttons (menu tiles)

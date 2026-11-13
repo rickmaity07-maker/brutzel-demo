@@ -238,3 +238,75 @@ dialog::backdrop {
 .rail > * {
   scroll-snap-align: start;
 }
+
+/* The site-wide pause switch stops the marquee too. */
+html[data-motion="paused"] .marquee {
+  animation-play-state: paused;
+}
+
+/* Soft fade between pages (template.tsx remounts on every navigation). */
+.page-enter {
+  animation: page-enter 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .page-enter {
+    animation: none;
+  }
+}
+
+/* Lenis smooth scrolling */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+/* Loading placeholder with a slow shimmer. */
+.skeleton {
+  background: linear-gradient(100deg, var(--card) 30%, var(--raised) 50%, var(--card) 70%);
+  background-size: 300% 100%;
+  animation: skeleton 1.6s ease-in-out infinite;
+}
+@keyframes skeleton {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none;
+  }
+}
+
+/* Burger builder: a new layer drops onto the stack. */
+.burger-drop {
+  animation: burger-drop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+@keyframes burger-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-140px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .burger-drop {
+    animation: none;
+  }
+}

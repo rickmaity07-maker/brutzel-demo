@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
+import { BRAND } from "@/brand.config";
 import { LangToggle } from "@/components/LangProvider";
 import { FramePlayer } from "@/components/shop/FramePlayer";
 import { LoginForm } from "@/components/admin/LoginForm";
@@ -16,7 +17,7 @@ export default async function LoginPage() {
       <div className="absolute inset-0 bg-grill/55" aria-hidden="true" />
       <div className="glass relative w-full max-w-sm rounded-[var(--radius-card)] p-7">
         <div className="mb-8 flex items-center justify-between">
-          <p className="display text-5xl text-ketchup">Brutzel</p>
+          <p className="display text-5xl text-ketchup">{BRAND.name}</p>
           <LangToggle className="border-grill-ink/30" />
         </div>
         <LoginForm demoPassword={demoPassword} />

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BRAND } from "@/brand.config";
 import { getDict } from "@/lib/lang";
 
 export async function SiteFooter() {
@@ -30,7 +31,7 @@ export async function SiteFooter() {
         className="display pointer-events-none -mb-[0.18em] select-none text-center text-[clamp(6rem,24vw,22rem)] leading-[0.8] text-ketchup"
         aria-hidden="true"
       >
-        Brutzel
+        {BRAND.name}
       </p>
     </footer>
   );

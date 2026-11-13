@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BRAND } from "@/brand.config";
 import { LangToggle } from "@/components/LangProvider";
 import { getSettings, openNow } from "@/lib/data";
 import { getDict } from "@/lib/lang";
@@ -11,8 +12,8 @@ export async function SiteHeader() {
   return (
     <header className="pointer-events-none fixed inset-x-0 top-3 z-40 px-3 sm:top-4 sm:px-6">
       <div className="glass pointer-events-auto mx-auto flex h-14 max-w-5xl items-center gap-3 rounded-full pl-5 pr-2 sm:gap-4">
-        <Link href="/" className="display text-[1.7rem] leading-none text-ketchup" aria-label="Brutzel">
-          Brutzel
+        <Link href="/" className="display text-[1.7rem] leading-none text-ketchup" aria-label={BRAND.name}>
+          {BRAND.name}
         </Link>
         <span className="hidden items-center gap-2 text-xs font-medium text-muted lg:inline-flex">
           <span className={`size-1.5 rounded-full ${isOpen ? "bg-pickle shadow-[0_0_10px] shadow-pickle" : "bg-muted"}`} aria-hidden />
@@ -21,6 +22,9 @@ export async function SiteHeader() {
         <nav className="ml-auto hidden items-center gap-6 text-sm font-medium md:flex" aria-label="Main">
           <Link href="/menu" className="transition-colors hover:text-ketchup">
             {t.nav.menu}
+          </Link>
+          <Link href="/builder" className="transition-colors hover:text-ketchup">
+            {t.builder.eyebrow}
           </Link>
           <Link href="/#visit" className="transition-colors hover:text-ketchup">
             {t.nav.hours}

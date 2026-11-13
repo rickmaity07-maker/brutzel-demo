@@ -3,6 +3,7 @@ import { CartDrawer } from "@/components/shop/CartDrawer";
 import { ItemSheet } from "@/components/shop/ItemSheet";
 import { SiteHeader } from "@/components/shop/SiteHeader";
 import { SiteFooter } from "@/components/shop/SiteFooter";
+import { SmoothScroll } from "@/components/shop/SmoothScroll";
 import { getExtras, getMenu, getSettings } from "@/lib/data";
 
 export default async function ShopLayout({ children }: LayoutProps<"/">) {
@@ -14,6 +15,7 @@ export default async function ShopLayout({ children }: LayoutProps<"/">) {
       <SiteFooter />
       <CartDrawer />
       <ItemSheet />
+      <SmoothScroll />
     </ShopProvider>
   );
 }

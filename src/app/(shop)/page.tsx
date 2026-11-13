@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -7,9 +8,11 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import { BuildStack } from "@/components/shop/BuildStack";
 import { ClipBento } from "@/components/shop/ClipBento";
+import { ClipGrid } from "@/components/shop/ClipGrid";
 import { ClipVideo } from "@/components/shop/ClipVideo";
 import { Marquee } from "@/components/shop/Marquee";
 import { OpenItemButton } from "@/components/shop/OpenItemButton";
+import { ReviewWall } from "@/components/shop/ReviewWall";
 import { SmashChapter } from "@/components/shop/SmashChapter";
 import { getMenu, getSettings } from "@/lib/data";
 import { fill, pick } from "@/lib/i18n";
@@ -18,7 +21,29 @@ import { formatPrice } from "@/lib/pricing";
 
 const HERO_BG = "#111517";
 
-export default async function HomePage() {
+/** "?for=Burgerhaus Müller" turns the hero into a pitch for that restaurant. */
+function pitchName(raw: string | string[] | undefined) {
+  if (typeof raw !== "string") return null;
+  const name = raw
+    .replace(/[^\p{L}\p{N} &'.-]/gu, "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 40);
+  return name.length >= 2 ? name : null;
+}
+
+export async function generateMetadata({
+  searchParams,
+}: PageProps<"/">): Promise<Metadata> {
+  const name = pitchName((await searchParams).for);
+  // personalised pitch pages stay out of search engines
+  return name
+    ? { title: `Entwurf für ${name}`, robots: { index: false, follow: false } }
+    : {};
+}
+
+export default async function HomePage({ searchParams }: PageProps<"/">) {
+  const forName = pitchName((await searchParams).for);
   const [{ lang, t }, menu, settings] = await Promise.all([
     getDict(),
     getMenu(),
@@ -43,6 +68,7 @@ export default async function HomePage() {
         <div className="feather-edges absolute left-0 top-16 -ml-[50vw] aspect-video w-[150vw] md:left-auto md:top-1/2 md:-right-[2vw] md:ml-0 md:w-[min(80vw,150svh)] md:-translate-y-[46%]">
           <ClipVideo
             src="/video/hero-zerog.mp4"
+            srcMobile="/video/hero-zerog-m.mp4"
             poster="/video/hero-zerog-start.webp"
             stillPoster="/video/hero-zerog-end.webp"
             label={
@@ -60,6 +86,11 @@ export default async function HomePage() {
           aria-hidden="true"
         />
         <div className="relative mx-auto w-full max-w-7xl px-4 pb-16 sm:px-6 md:pb-24">
+          {forName ? (
+            <p className="glass mb-6 inline-flex rounded-full px-4 py-2 text-sm font-semibold">
+              {fill(t.pitch.eyebrow, { name: forName })}
+            </p>
+          ) : null}
           <h1 className="display max-w-4xl text-[clamp(3.6rem,7vw,7.5rem)]">
             {t.hero.title}
           </h1>
@@ -99,6 +130,7 @@ export default async function HomePage() {
         <div className="feather-edges relative -ml-[50vw] aspect-video w-[150vw] md:absolute md:right-0 md:top-0 md:ml-0 md:w-[64vw] md:max-w-[1100px]">
           <ClipVideo
             src="/video/flatlay.mp4"
+            srcMobile="/video/flatlay-m.mp4"
             poster="/video/flatlay-start.webp"
             stillPoster="/video/flatlay-end.webp"
             label={
@@ -158,12 +190,24 @@ export default async function HomePage() {
             </li>
           ))}
         </ul>
+        <div className="mx-auto mt-16 flex max-w-7xl flex-wrap items-center justify-between gap-6 px-4 sm:px-6">
+          <p className="display text-[clamp(2rem,4vw,3.2rem)]">
+            {t.builder.teaser}
+          </p>
+          <Link href="/builder" className="btn btn-primary px-7 py-4 text-lg">
+            {t.builder.teaserCta}
+            <ArrowRight size={18} weight="bold" aria-hidden />
+          </Link>
+        </div>
       </section>
+
+      <ReviewWall lang={lang} title={t.reviews.title} note={t.reviews.note} />
 
       {/* Pickup / delivery */}
       <section className="relative isolate overflow-hidden bg-grill">
         <ClipVideo
           src="/video/bg-street.mp4"
+          srcMobile="/video/bg-street-m.mp4"
           poster="/video/bg-street.webp"
           loop
           className="-z-10 opacity-80"
@@ -210,6 +254,7 @@ export default async function HomePage() {
               <div className="feather-edges absolute inset-x-0 top-0 -z-10 h-[64%] md:inset-y-0 md:left-[30%] md:right-0 md:h-auto">
                 <ClipVideo
                   src="/video/bag.mp4"
+                  srcMobile="/video/bag-m.mp4"
                   poster="/video/bag-start.webp"
                   stillPoster="/video/bag-end.webp"
                   className="object-[100%_50%]"
@@ -220,7 +265,12 @@ export default async function HomePage() {
                   }
                 />
               </div>
-              <Bicycle size={36} weight="duotone" className="text-ketchup" aria-hidden />
+              <Bicycle
+                size={36}
+                weight="duotone"
+                className="text-ketchup"
+                aria-hidden
+              />
               <h3 className="display mt-4 text-6xl">{t.ways.deliveryTitle}</h3>
               <p className="mt-3 max-w-[38ch] text-studio-ink/85 md:max-w-[22ch]">
                 {fill(t.ways.deliveryBody, {
@@ -238,6 +288,7 @@ export default async function HomePage() {
         <div className="relative isolate overflow-hidden bg-ketchup text-ketchup-ink">
           <ClipVideo
             src="/video/bg-ketchup.mp4"
+            srcMobile="/video/bg-ketchup-m.mp4"
             poster="/video/bg-ketchup.webp"
             loop
             className="-z-10 object-[80%_70%]"
@@ -273,6 +324,7 @@ export default async function HomePage() {
         <div className="relative isolate overflow-hidden bg-grill">
           <ClipVideo
             src="/video/bg-griddle.mp4"
+            srcMobile="/video/bg-griddle-m.mp4"
             poster="/video/bg-griddle.webp"
             loop
             className="-z-10 object-[70%_60%]"
@@ -305,6 +357,8 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      <ClipGrid title={t.insta.title} />
     </>
   );
 }

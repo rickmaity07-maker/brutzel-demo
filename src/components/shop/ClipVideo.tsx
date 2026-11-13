@@ -1,9 +1,12 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useMotionPaused } from "@/lib/motion";
 
 type Props = {
   src: string;
+  /** lighter encode for screens under 768px */
+  srcMobile?: string;
   /** frame shown before playback starts */
   poster: string;
   /** frame shown instead of playing when the visitor prefers reduced motion */
@@ -16,11 +19,16 @@ type Props = {
 };
 
 /**
- * Muted Flow clip as a <video>. Plays when it scrolls into view; loops pause
- * again off screen so only the visible section decodes.
+ * Muted Flow clip as a <video>. The file is only attached once the clip is
+ * near the viewport (phones get the lighter encode), it plays in view, loops
+ * pause off screen, and the site-wide pause switch stops everything.
  */
-export function ClipVideo({ src, poster, stillPoster, loop = false, label, className = "" }: Props) {
+export function ClipVideo({ src, srcMobile, poster, stillPoster, loop = false, label, className = "" }: Props) {
   const ref = useRef<HTMLVideoElement>(null);
+  const inView = useRef(false);
+  const paused = useMotionPaused();
+  const pausedRef = useRef(paused);
+  pausedRef.current = paused;
 
   useEffect(() => {
     const video = ref.current;
@@ -29,19 +37,42 @@ export function ClipVideo({ src, poster, stillPoster, loop = false, label, class
       if (stillPoster) video.poster = stillPoster;
       return;
     }
-    const io = new IntersectionObserver(
+    const file = srcMobile && window.matchMedia("(max-width: 767px)").matches ? srcMobile : src;
+
+    const attach = new IntersectionObserver(
       ([entry]) => {
+        if (!entry.isIntersecting) return;
+        attach.disconnect();
+        video.preload = loop ? "metadata" : "auto";
+        video.src = file;
+      },
+      { rootMargin: "600px 0px" },
+    );
+    const play = new IntersectionObserver(
+      ([entry]) => {
+        inView.current = entry.isIntersecting;
         if (entry.isIntersecting) {
-          if (loop || !video.ended) video.play().catch(() => {});
+          if (!pausedRef.current && (loop || !video.ended)) video.play().catch(() => {});
         } else if (loop) {
           video.pause();
         }
       },
       { threshold: 0.15 },
     );
-    io.observe(video);
-    return () => io.disconnect();
-  }, [loop, stillPoster]);
+    attach.observe(video);
+    play.observe(video);
+    return () => {
+      attach.disconnect();
+      play.disconnect();
+    };
+  }, [src, srcMobile, loop, stillPoster]);
+
+  useEffect(() => {
+    const video = ref.current;
+    if (!video || !video.src) return;
+    if (paused) video.pause();
+    else if (inView.current && (loop || !video.ended)) video.play().catch(() => {});
+  }, [paused, loop]);
 
   return (
     <video
@@ -51,10 +82,8 @@ export function ClipVideo({ src, poster, stillPoster, loop = false, label, class
       muted
       playsInline
       loop={loop}
-      preload={loop ? "none" : "auto"}
+      preload="none"
       {...(label ? { role: "img", "aria-label": label } : { "aria-hidden": true })}
-    >
-      <source src={src} type="video/mp4" />
-    </video>
+    />
   );
 }

@@ -1,3 +1,4 @@
+import { BRAND, brandAddress } from "@/brand.config";
 import type { Category, Lang, OrderStatus } from "./types";
 
 const de = {
@@ -5,7 +6,7 @@ const de = {
   intro: { skip: "Intro überspringen" },
   hero: {
     title: "Heiß gesmasht. Hoch gestapelt.",
-    sub: "Frisch gesmasht, in 20 Minuten fertig. Zum Abholen oder geliefert in Köln-Innenstadt.",
+    sub: `Frisch gesmasht, in 20 Minuten fertig. Zum Abholen oder geliefert in ${BRAND.area.de}.`,
     cta: "Jetzt bestellen",
     secondary: "Speisekarte ansehen",
     openNow: "Jetzt geöffnet",
@@ -16,7 +17,7 @@ const de = {
     title: "Gesmasht, nicht gepresst.",
     body: "Zwei Kugeln Rind. Eine Stahlplatte bei 230 Grad. Zehn Sekunden Druck, und die Ränder werden zu knuspriger Spitze. Dann kommt der Cheddar, solange es noch zischt.",
   },
-  marquee: ["Gesmasht", "Gestapelt", "Heiß serviert", "Köln Innenstadt"],
+  marquee: ["Gesmasht", "Gestapelt", "Heiß serviert", BRAND.area.de],
   bento: { title: "Mehr als nur Burger." },
   cta: { before: "In 20 Minuten", after: "heiß in deiner Hand.", button: "Jetzt bestellen" },
   build: {
@@ -46,7 +47,7 @@ const de = {
     deliveryTitle: "Liefern",
     deliveryBody: "Wir liefern in die Innenstadt. Mindestbestellwert {min}, Liefergebühr {fee}.",
   },
-  visit: { title: "Komm vorbei", address: "Brückenstraße 14, 50667 Köln", closed: "Ruhetag" },
+  visit: { title: "Komm vorbei", address: brandAddress("de"), closed: "Ruhetag" },
   days: ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"],
   categories: { burger: "Burger", chicken: "Chicken", sides: "Beilagen", shakes: "Shakes", drinks: "Getränke" } as Record<
     Category,
@@ -159,6 +160,49 @@ const de = {
       none: "Noch keine Verkäufe.",
     },
   },
+  motion: { pause: "Animationen pausieren", play: "Animationen abspielen" },
+  builder: {
+    eyebrow: "Baukasten",
+    title: "Bau dir deinen Burger.",
+    sub: "Basis wählen, Extras drauf, fertig. Der Preis rechnet live mit.",
+    base: "Basis",
+    extras: "Extras",
+    combo: "Als Menü",
+    comboHint: "mit Pommes und Getränk",
+    drink: "Getränk",
+    add: "In den Warenkorb",
+    added: "Liegt im Warenkorb",
+    total: "Dein Burger",
+    teaser: "Lieber selbst stapeln?",
+    teaserCta: "Zum Burger-Baukasten",
+  },
+  cartPlus: {
+    toMin: "Noch {amount} bis zur Lieferung",
+    minReached: "Lieferung möglich",
+    makeCombo: "Als Menü mit Pommes & {drink}",
+    addOn: "Passt dazu",
+  },
+  eta: {
+    pickup: "Abholbereit in ca. {min} Min.",
+    delivery: "Bei dir in ca. {min} Min.",
+    soon: "Gleich fertig",
+    readyTitle: "Deine Bestellung ist fertig.",
+    readyBody: "Hol sie an der Theke ab: {address}.",
+    outTitle: "Dein Essen ist unterwegs.",
+    doneTitle: "Guten Appetit.",
+  },
+  reviews: {
+    title: "Was Gäste sagen",
+    note: "Beispielbewertungen für diese Demo. Fiktives Restaurant.",
+  },
+  insta: { title: "Frisch vom Grill", follow: "Folgen" },
+  notFound: {
+    title: "Hier brutzelt nichts.",
+    body: "Diese Seite gibt es nicht (mehr). Der Grill ist trotzdem an.",
+    home: "Zur Startseite",
+    menu: "Zur Speisekarte",
+  },
+  pitch: { eyebrow: "Entwurf für {name}" },
 };
 
 type Dict = typeof de;
@@ -168,7 +212,7 @@ const en: Dict = {
   intro: { skip: "Skip intro" },
   hero: {
     title: "Smashed hot. Stacked high.",
-    sub: "Freshly smashed, ready in 20 minutes. Pick up or get it delivered in central Cologne.",
+    sub: `Freshly smashed, ready in 20 minutes. Pick up or get it delivered in ${BRAND.area.en}.`,
     cta: "Order now",
     secondary: "See the menu",
     openNow: "Open now",
@@ -179,7 +223,7 @@ const en: Dict = {
     title: "Smashed, not pressed.",
     body: "Two balls of beef. A steel plate at 230 degrees. Ten seconds of pressure and the edges turn to crisp lace. Then the cheddar goes on while it is still hissing.",
   },
-  marquee: ["Smashed", "Stacked", "Served hot", "Central Cologne"],
+  marquee: ["Smashed", "Stacked", "Served hot", BRAND.area.en],
   bento: { title: "More than burgers." },
   cta: { before: "Twenty minutes to", after: "a hot stack.", button: "Order now" },
   build: {
@@ -209,7 +253,7 @@ const en: Dict = {
     deliveryTitle: "Delivery",
     deliveryBody: "We deliver in the city centre. Minimum order {min}, delivery fee {fee}.",
   },
-  visit: { title: "Come by", address: "Brückenstraße 14, 50667 Cologne", closed: "Closed" },
+  visit: { title: "Come by", address: brandAddress("en"), closed: "Closed" },
   days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
   categories: { burger: "Burgers", chicken: "Chicken", sides: "Sides", shakes: "Shakes", drinks: "Drinks" },
   tags: { new: "New", hot: "Spicy", veggie: "Vegetarian" },
@@ -319,6 +363,49 @@ const en: Dict = {
       none: "No sales yet.",
     },
   },
+  motion: { pause: "Pause animations", play: "Play animations" },
+  builder: {
+    eyebrow: "Builder",
+    title: "Build your own burger.",
+    sub: "Pick a base, stack the extras, done. The price updates as you go.",
+    base: "Base",
+    extras: "Extras",
+    combo: "Make it a combo",
+    comboHint: "with fries and a drink",
+    drink: "Drink",
+    add: "Add to cart",
+    added: "In your cart",
+    total: "Your burger",
+    teaser: "Rather stack it yourself?",
+    teaserCta: "Open the burger builder",
+  },
+  cartPlus: {
+    toMin: "{amount} more for delivery",
+    minReached: "Delivery available",
+    makeCombo: "Make it a combo with fries & {drink}",
+    addOn: "Goes well with",
+  },
+  eta: {
+    pickup: "Ready for pickup in about {min} min",
+    delivery: "At your door in about {min} min",
+    soon: "Almost ready",
+    readyTitle: "Your order is ready.",
+    readyBody: "Pick it up at the counter: {address}.",
+    outTitle: "Your food is on its way.",
+    doneTitle: "Enjoy your meal.",
+  },
+  reviews: {
+    title: "What guests say",
+    note: "Sample reviews for this demo. Fictional restaurant.",
+  },
+  insta: { title: "Fresh off the grill", follow: "Follow" },
+  notFound: {
+    title: "Nothing sizzling here.",
+    body: "This page doesn't exist (any more). The grill is still on, though.",
+    home: "Back to the homepage",
+    menu: "See the menu",
+  },
+  pitch: { eyebrow: "A draft for {name}" },
 };
 
 export const dictionaries: Record<Lang, Dict> = { de, en };
