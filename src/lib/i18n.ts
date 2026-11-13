@@ -76,6 +76,7 @@ const de = {
   },
   checkout: {
     title: "Kasse",
+    demoNote: "Demo: Bitte keine echten Daten eingeben. Testbestellungen werden nach wenigen Stunden gelöscht.",
     pickup: "Abholen",
     delivery: "Liefern",
     name: "Name",
@@ -279,6 +280,7 @@ const en: Dict = {
   },
   checkout: {
     title: "Checkout",
+    demoNote: "Demo: please don't enter real details. Test orders are deleted after a few hours.",
     pickup: "Pick up",
     delivery: "Delivery",
     name: "Name",

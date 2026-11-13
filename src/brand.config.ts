@@ -18,6 +18,13 @@ export const BRAND = {
   email: "hallo@brutzel.example",
   phone: "0221 0000000",
   instagram: "brutzel.koeln",
+  /** USt-IdNr. for the Impressum, or null if the business has none */
+  vatId: null as string | null,
+  /** state data protection authority for the Datenschutz page (depends on the Bundesland) */
+  dataAuthority: {
+    name: "Landesbeauftragte für Datenschutz und Informationsfreiheit Nordrhein-Westfalen",
+    url: "https://www.ldi.nrw.de",
+  },
   /** minutes from order to pickup / delivery, for the live status estimate */
   prepMinutes: { pickup: 20, delivery: 35 },
   colors: {

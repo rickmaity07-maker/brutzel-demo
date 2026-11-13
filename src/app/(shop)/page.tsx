@@ -17,29 +17,28 @@ import { SmashChapter } from "@/components/shop/SmashChapter";
 import { getMenu, getSettings } from "@/lib/data";
 import { fill, pick } from "@/lib/i18n";
 import { getDict } from "@/lib/lang";
+import { pitchName } from "@/lib/pitch";
 import { formatPrice } from "@/lib/pricing";
 
 const HERO_BG = "#111517";
 
-/** "?for=Burgerhaus Müller" turns the hero into a pitch for that restaurant. */
-function pitchName(raw: string | string[] | undefined) {
-  if (typeof raw !== "string") return null;
-  const name = raw
-    .replace(/[^\p{L}\p{N} &'.-]/gu, "")
-    .replace(/\s+/g, " ")
-    .trim()
-    .slice(0, 40);
-  return name.length >= 2 ? name : null;
-}
 
 export async function generateMetadata({
   searchParams,
 }: PageProps<"/">): Promise<Metadata> {
   const name = pitchName((await searchParams).for);
   // personalised pitch pages stay out of search engines
-  return name
-    ? { title: `Entwurf für ${name}`, robots: { index: false, follow: false } }
-    : {};
+  if (!name) return {};
+  const title = `Entwurf für ${name}`;
+  const description = `Ein Website-Entwurf für ${name}: Speisekarte, Online-Bestellung zum Abholen oder Liefern und Live-Status.`;
+  const image = { url: `/api/og?for=${encodeURIComponent(name)}`, width: 1200, height: 630, alt: title };
+  return {
+    title,
+    description,
+    robots: { index: false, follow: false },
+    openGraph: { title, description, images: [image] },
+    twitter: { card: "summary_large_image", title, description, images: [image.url] },
+  };
 }
 
 export default async function HomePage({ searchParams }: PageProps<"/">) {

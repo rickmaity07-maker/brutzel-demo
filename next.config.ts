@@ -27,6 +27,8 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   // cacheComponents is off: nearly every page reads the language cookie or live order data.
   poweredByHeader: false,
+  // the pitch share card reads its background photo from disk
+  outputFileTracingIncludes: { "/api/og": ["./public/og-base.jpg"] },
   images: { formats: ["image/avif", "image/webp"] },
   turbopack: {
     rules: {
