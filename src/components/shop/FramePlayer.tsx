@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -48,10 +48,14 @@ export function FramePlayer({
   const api = useRef<{ goTo: (p: number) => void } | null>(null);
   const playTween = useRef<gsap.core.Tween | null>(null);
   const progressRef = useRef(progress);
-  progressRef.current = progress;
   const paused = useMotionPaused();
   const pausedRef = useRef(paused);
-  pausedRef.current = paused;
+  // keep the latest props readable from GSAP callbacks; a layout effect declared before
+  // useGSAP runs first, so those callbacks never see a stale value
+  useLayoutEffect(() => {
+    progressRef.current = progress;
+    pausedRef.current = paused;
+  }, [progress, paused]);
 
   useGSAP(
     () => {
