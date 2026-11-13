@@ -30,7 +30,7 @@ export function ReviewWall({ lang, title, note }: { lang: Lang; title: string; n
               <p className="mt-3 text-lg leading-snug">{r[lang]}</p>
               <div className="mt-5 flex items-center justify-between gap-3">
                 <span className="font-semibold">{r.name}</span>
-                <span className="flex gap-0.5" aria-label={`${r.stars}/5`}>
+                <span className="flex gap-0.5" role="img" aria-label={`${r.stars}/5`}>
                   {Array.from({ length: 5 }, (_, i) => (
                     <Star key={i} size={15} weight="fill" className={i < r.stars ? "text-ketchup" : "text-line"} aria-hidden />
                   ))}

@@ -34,7 +34,7 @@ export function LangToggle({ className = "" }: { className?: string }) {
         })
       }
       className={`rounded-full border border-line px-3 py-1.5 text-sm font-semibold hover:border-ink ${className}`}
-      aria-label={next === "en" ? "Switch to English" : "Auf Deutsch umschalten"}
+      aria-label={next === "en" ? "DE / EN: Switch to English" : "DE / EN: Auf Deutsch umschalten"}
     >
       <span className={lang === "de" ? "" : "text-muted"}>DE</span>
       <span className="px-1 text-muted">/</span>

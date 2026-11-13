@@ -28,8 +28,8 @@ export const BRAND = {
   /** minutes from order to pickup / delivery, for the live status estimate */
   prepMinutes: { pickup: 20, delivery: 35 },
   colors: {
-    /** the one accent: buttons, wordmark, highlights */
-    accent: "#e0412f",
+    /** the one accent: buttons, wordmark, highlights. Keep at least 4.5:1 contrast with accentInk (WCAG AA). */
+    accent: "#d83c2a",
     accentInk: "#ffffff",
     /** state colour: open now, ready, veggie */
     fresh: "#a3c25a",
