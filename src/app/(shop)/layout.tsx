@@ -10,7 +10,7 @@ export default async function ShopLayout({ children }: LayoutProps<"/">) {
   return (
     <ShopProvider menu={menu} extras={extras} comboCents={settings.combo.price_cents} delivery={settings.delivery}>
       <SiteHeader />
-      <main>{children}</main>
+      <main id="main" className="w-full max-w-full overflow-x-clip pt-24">{children}</main>
       <SiteFooter />
       <CartDrawer />
       <ItemSheet />

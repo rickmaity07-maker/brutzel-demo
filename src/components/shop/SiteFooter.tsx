@@ -4,24 +4,34 @@ import { getDict } from "@/lib/lang";
 export async function SiteFooter() {
   const { t } = await getDict();
   return (
-    <footer className="bg-grill text-grill-ink">
-      <div className="mx-auto grid max-w-7xl gap-8 px-4 py-14 sm:px-6 md:grid-cols-[1fr_auto]">
+    <footer className="relative overflow-hidden border-t border-line bg-grill text-grill-ink">
+      <div className="mx-auto grid max-w-7xl gap-10 px-4 pb-10 pt-16 sm:px-6 md:grid-cols-[1fr_auto]">
         <div>
-          <p className="display text-[clamp(4rem,14vw,11rem)] text-ketchup">Brutzel</p>
-          <p className="mt-2 text-sm opacity-70">{t.visit.address}</p>
+          <p className="text-sm text-muted">{t.visit.address}</p>
+          <nav className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-sm" aria-label="Footer">
+            <Link href="/menu" className="transition-colors hover:text-ketchup">
+              {t.nav.menu}
+            </Link>
+            <Link href="/impressum" className="transition-colors hover:text-ketchup">
+              {t.footer.imprint}
+            </Link>
+            <Link href="/datenschutz" className="transition-colors hover:text-ketchup">
+              {t.footer.privacy}
+            </Link>
+            <Link href="/admin" className="transition-colors hover:text-ketchup">
+              {t.footer.admin}
+            </Link>
+          </nav>
         </div>
-        <nav className="flex flex-col gap-2 text-sm md:items-end md:justify-end" aria-label="Footer">
-          <Link href="/menu" className="hover:underline">
-            {t.nav.menu}
-          </Link>
-          <Link href="/impressum" className="hover:underline">{t.footer.imprint}</Link>
-          <Link href="/datenschutz" className="hover:underline">{t.footer.privacy}</Link>
-          <Link href="/admin" className="hover:underline">
-            {t.footer.admin}
-          </Link>
-          <span className="mt-4 text-xs opacity-60">{t.footer.demo}</span>
-        </nav>
+        <p className="self-end text-xs text-muted md:text-right">{t.footer.demo}</p>
       </div>
+      {/* oversized wordmark, cropped by the footer edge */}
+      <p
+        className="display pointer-events-none -mb-[0.18em] select-none text-center text-[clamp(6rem,24vw,22rem)] leading-[0.8] text-ketchup"
+        aria-hidden="true"
+      >
+        Brutzel
+      </p>
     </footer>
   );
 }

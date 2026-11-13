@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Minus, Plus, X } from "@phosphor-icons/react";
+import { Minus, Plus, ShoppingBag, X } from "@phosphor-icons/react";
 import { useLang } from "@/components/LangProvider";
 import { fill, pick } from "@/lib/i18n";
 import { formatPrice } from "@/lib/pricing";
@@ -22,7 +22,7 @@ export function CartDrawer() {
             type="button"
             onClick={() => setDrawerOpen(false)}
             aria-label={t.item.close}
-            className="grid size-10 place-items-center rounded-full hover:bg-paper"
+            className="grid size-10 place-items-center rounded-full transition-colors hover:bg-raised"
           >
             <X size={18} weight="bold" />
           </button>
@@ -105,7 +105,8 @@ export function CartButton() {
       className="btn btn-primary px-4 py-2.5 text-sm"
       aria-label={`${t.nav.cart}, ${count}`}
     >
-      {t.nav.cart}
+      <ShoppingBag size={17} weight="bold" className="sm:hidden" aria-hidden />
+      <span className="hidden sm:inline">{t.nav.cart}</span>
       <span className="rounded-full bg-ketchup-ink px-2 text-ketchup tabular-nums">{count}</span>
       {count > 0 && priced.ok ? (
         <span className="hidden tabular-nums sm:inline">{formatPrice(priced.subtotalCents, lang)}</span>

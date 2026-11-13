@@ -1,41 +1,32 @@
 @import "tailwindcss";
 
 /*
-  Brutzel tokens.
-  Shape rule: interactive controls are full pills, cards and photos 14px, inputs 10px.
+  Brutzel tokens: one dark, cinematic theme.
+  Charcoal tinted slightly toward the Flow clips' studio backdrop.
+  Shape rule: interactive controls are full pills, cards and media 18px, inputs 12px.
   One accent (ketchup). Pickle green only marks state (open now, ready, veggie).
 */
 :root {
-  --paper: #f4f5f2;
-  --card: #ffffff;
-  --ink: #1c1f1a;
-  --muted: #5a6056;
-  --line: rgb(28 31 26 / 0.12);
-  --ketchup: #d62b1f;
+  color-scheme: dark;
+  --paper: #0f1112;
+  --card: #181b1c;
+  --raised: #202425;
+  --ink: #f1efe9;
+  --muted: #bcbfb8;
+  --line: rgb(241 239 233 / 0.16);
+  --ketchup: #e0412f;
   --ketchup-ink: #ffffff;
-  --pickle: #56721f;
-  --grill: #1c1f1a;
-  --grill-ink: #f4f5f2;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --paper: #131512;
-    --card: #1c1f1a;
-    --ink: #eceee8;
-    --muted: #a4aa9f;
-    --line: rgb(236 238 232 / 0.14);
-    --ketchup: #e8412f;
-    --ketchup-ink: #ffffff;
-    --pickle: #9cbc4f;
-    --grill: #0c0d0b;
-    --grill-ink: #eceee8;
-  }
+  --pickle: #a3c25a;
+  --grill: #0a0b0c;
+  --grill-ink: #f1efe9;
+  --studio: #efefea;
+  --studio-ink: #16181a;
 }
 
 @theme inline {
   --color-paper: var(--paper);
   --color-card: var(--card);
+  --color-raised: var(--raised);
   --color-ink: var(--ink);
   --color-muted: var(--muted);
   --color-line: var(--line);
@@ -44,10 +35,12 @@
   --color-pickle: var(--pickle);
   --color-grill: var(--grill);
   --color-grill-ink: var(--grill-ink);
+  --color-studio: var(--studio);
+  --color-studio-ink: var(--studio-ink);
   --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-shoulders), Impact, sans-serif;
-  --radius-card: 14px;
-  --radius-field: 10px;
+  --radius-card: 18px;
+  --radius-field: 12px;
 }
 
 html {
@@ -65,96 +58,172 @@ body {
   font-family: var(--font-sans);
 }
 
+/* Film grain over everything; fixed and non-interactive. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.07;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
 :focus-visible {
   outline: 3px solid var(--ketchup);
   outline-offset: 2px;
 }
 
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+p {
+  text-wrap: pretty;
+}
+
 /* Component classes live in a layer so Tailwind utilities (w-24, px-4, ...) can override them. */
 @layer components {
-.display {
-  font-family: var(--font-display);
-  font-variation-settings: "opsz" 72;
-  font-weight: 800;
-  line-height: 0.92;
-  letter-spacing: -0.01em;
-}
+  .display {
+    font-family: var(--font-display);
+    font-variation-settings: "opsz" 72;
+    font-weight: 800;
+    line-height: 0.9;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+  }
 
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  border-radius: 999px;
-  padding: 0.85rem 1.5rem;
-  font-weight: 600;
-  white-space: nowrap;
-  transition:
-    transform 0.15s cubic-bezier(0.16, 1, 0.3, 1),
-    background-color 0.2s;
-}
-.btn:active {
-  transform: translateY(1px) scale(0.98);
-}
-.btn-primary {
-  background: var(--ketchup);
-  color: var(--ketchup-ink);
-}
-.btn-primary:hover {
-  background: color-mix(in oklab, var(--ketchup) 88%, black);
-}
-.btn-ghost {
-  border: 1.5px solid var(--ink);
-  color: var(--ink);
-}
-.btn-ghost:hover {
-  background: var(--ink);
-  color: var(--paper);
-}
-.btn:disabled {
-  opacity: 0.5;
-  pointer-events: none;
-}
+  .eyebrow {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ketchup);
+  }
 
-.field {
-  width: 100%;
-  border-radius: var(--radius-field);
-  border: 1.5px solid var(--line);
-  background: var(--card);
-  color: var(--ink);
-  padding: 0.75rem 0.9rem;
-}
-.field::placeholder {
-  color: color-mix(in oklab, var(--muted) 85%, transparent);
-}
-.field:focus {
-  border-color: var(--ink);
-  outline: none;
-}
-.field[aria-invalid="true"] {
-  border-color: var(--ketchup);
-}
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 999px;
+    padding: 0.9rem 1.6rem;
+    font-weight: 600;
+    white-space: nowrap;
+    transition:
+      transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+      background-color 0.2s,
+      color 0.2s,
+      border-color 0.2s;
+  }
+  .btn:hover {
+    transform: translateY(-1px);
+  }
+  .btn:active {
+    transform: translateY(1px) scale(0.98);
+  }
+  .btn-primary {
+    background: var(--ketchup);
+    color: var(--ketchup-ink);
+  }
+  .btn-primary:hover {
+    background: color-mix(in oklab, var(--ketchup) 86%, white);
+  }
+  .btn-ghost {
+    border: 1.5px solid color-mix(in oklab, var(--ink) 45%, transparent);
+    color: var(--ink);
+  }
+  .btn-ghost:hover {
+    border-color: var(--ink);
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .btn:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  .field {
+    width: 100%;
+    border-radius: var(--radius-field);
+    border: 1.5px solid var(--line);
+    background: var(--card);
+    color: var(--ink);
+    padding: 0.8rem 0.95rem;
+    transition: border-color 0.2s;
+  }
+  .field::placeholder {
+    color: color-mix(in oklab, var(--muted) 85%, transparent);
+  }
+  .field:focus {
+    border-color: var(--ink);
+    outline: none;
+  }
+  .field[aria-invalid="true"] {
+    border-color: var(--ketchup);
+  }
+
+  /* Soft glass used by the floating nav and labels on media. */
+  .glass {
+    background: color-mix(in oklab, var(--paper) 80%, transparent);
+    backdrop-filter: blur(18px) saturate(1.4);
+    border: 1px solid rgb(255 255 255 / 0.08);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.06),
+      0 18px 40px -18px rgb(0 0 0 / 0.7);
+  }
 }
 
 dialog::backdrop {
-  background: rgb(12 13 11 / 0.55);
+  background: rgb(5 6 6 / 0.7);
+  backdrop-filter: blur(4px);
 }
 
-/* Intro: hidden once seen (set before paint by the head script); failsafe hides it after 7s if JS never runs. */
-html[data-intro-seen] .intro {
-  display: none;
+/* Section surfaces: each chapter gets its own ground. */
+.surface-ember {
+  background:
+    radial-gradient(60% 50% at 12% 0%, rgb(224 65 47 / 0.22), transparent 70%),
+    radial-gradient(50% 45% at 100% 100%, rgb(224 120 47 / 0.14), transparent 70%),
+    #171110;
 }
-.intro {
-  animation: intro-failsafe 0s linear 7s forwards;
+.surface-photo {
+  position: relative;
+  isolation: isolate;
 }
-.intro-layer,
-.intro-letter {
-  visibility: hidden;
+.surface-photo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(180deg, rgb(10 11 12 / 0.9), rgb(10 11 12 / 0.62) 50%, rgb(10 11 12 / 0.92)),
+    var(--photo) center / cover no-repeat;
 }
-@keyframes intro-failsafe {
+
+/* Fade a media box's edges into whatever sits behind it. */
+.feather-edges {
+  mask-image:
+    linear-gradient(90deg, transparent, #000 14%, #000 88%, transparent),
+    linear-gradient(180deg, transparent, #000 12%, #000 82%, transparent);
+  mask-composite: intersect;
+}
+
+/* Infinite marquee: two identical tracks, the second picks up where the first leaves. */
+.marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 38s linear infinite;
+}
+@keyframes marquee {
   to {
-    visibility: hidden;
-    pointer-events: none;
+    transform: translateX(-50%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee {
+    animation: none;
   }
 }
 

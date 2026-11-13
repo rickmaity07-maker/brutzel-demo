@@ -41,3 +41,6 @@ yarn-error.log*
 next-env.d.ts
 graphify-out/
 BRIEF.md
+
+# raw Flow source clips (web versions live in public/frames and public/video)
+/media/

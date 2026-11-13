@@ -3,6 +3,10 @@
 import { useEffect, useState } from "react";
 import { useLang } from "@/components/LangProvider";
 import type { OrderMode, OrderStatus } from "@/lib/types";
+import { FramePlayer } from "./FramePlayer";
+
+/** How far the frying clip has got for each status (raw batter -> golden -> dip on the side). */
+const CLIP_AT: Record<string, number> = { new: 0.3, preparing: 0.62, ready: 0.86, out: 0.86, done: 1 };
 
 const POLL_MS = 4000;
 
@@ -42,7 +46,17 @@ export function StatusTracker(props: { code: string; mode: OrderMode; initial: O
 
   return (
     <div className="mt-8">
-      <ol className="grid grid-cols-4 gap-2" aria-label={t.status.live}>
+      <div className="relative aspect-[16/9] overflow-hidden rounded-[var(--radius-card)] bg-studio">
+        <FramePlayer
+          base="/frames/chicken"
+          count={199}
+          bg="#ecede5"
+          mode="progress"
+          progress={CLIP_AT[shown] ?? 0}
+          focus={{ x: 0.53, y: 0.6, zoom: 1.3 }}
+        />
+      </div>
+      <ol className="mt-6 grid grid-cols-4 gap-2" aria-label={t.status.live}>
         {steps.map((s, i) => {
           const reached = i <= current;
           return (

@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Big_Shoulders, Geist } from "next/font/google";
 import { LangProvider } from "@/components/LangProvider";
-import { introGateScript } from "@/components/shop/introGate";
 import { getLang } from "@/lib/lang";
 import "./globals.css";
 
@@ -14,19 +13,14 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f4f5f2" },
-    { media: "(prefers-color-scheme: dark)", color: "#131512" },
-  ],
+  themeColor: "#0f1112",
+  colorScheme: "dark",
 };
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
   const lang = await getLang();
   return (
-    <html lang={lang} className={`${geist.variable} ${shoulders.variable} antialiased`} suppressHydrationWarning>
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: introGateScript }} />
-      </head>
+    <html lang={lang} className={`${geist.variable} ${shoulders.variable} antialiased`}>
       <body className="min-h-dvh">
         <LangProvider lang={lang}>{children}</LangProvider>
       </body>
