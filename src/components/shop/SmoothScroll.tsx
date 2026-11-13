@@ -14,6 +14,11 @@ gsap.registerPlugin(ScrollTrigger);
  */
 export function SmoothScroll() {
   useEffect(() => {
+    // from now on, page changes fade in (see .page-enter); the first load does not
+    document.documentElement.dataset.navigated = "";
+  }, []);
+
+  useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce), (pointer: coarse)").matches) return;
     const lenis = new Lenis({ lerp: 0.11, anchors: { offset: -96 } });
     lenis.on("scroll", ScrollTrigger.update);

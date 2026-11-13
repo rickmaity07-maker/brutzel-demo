@@ -248,8 +248,10 @@ html[data-motion="paused"] .marquee {
   Soft fade between pages (template.tsx remounts on every navigation).
   Opacity only: a transform on this wrapper, even a finished one, would become
   the containing block for ScrollTrigger's position:fixed pins and break them.
+  Skipped on the first load (data-navigated is set after hydration): a page that
+  starts invisible pushes Largest Contentful Paint back by seconds.
 */
-.page-enter {
+html[data-navigated] .page-enter {
   animation: page-enter 0.4s ease-out backwards;
 }
 @keyframes page-enter {
