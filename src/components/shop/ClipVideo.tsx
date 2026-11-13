@@ -28,7 +28,10 @@ export function ClipVideo({ src, srcMobile, poster, stillPoster, loop = false, l
   const inView = useRef(false);
   const paused = useMotionPaused();
   const pausedRef = useRef(paused);
-  pausedRef.current = paused;
+  // the IntersectionObserver callbacks read the latest pause state from here
+  useEffect(() => {
+    pausedRef.current = paused;
+  }, [paused]);
 
   useEffect(() => {
     const video = ref.current;

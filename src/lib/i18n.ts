@@ -3,7 +3,6 @@ import type { Category, Lang, OrderStatus } from "./types";
 
 const de = {
   nav: { menu: "Speisekarte", order: "Bestellen", hours: "Öffnungszeiten", cart: "Warenkorb" },
-  intro: { skip: "Intro überspringen" },
   hero: {
     title: "Heiß gesmasht. Hoch gestapelt.",
     sub: `Frisch gesmasht, in 20 Minuten fertig. Zum Abholen oder geliefert in ${BRAND.area.de}.`,
@@ -210,7 +209,6 @@ type Dict = typeof de;
 
 const en: Dict = {
   nav: { menu: "Menu", order: "Order", hours: "Opening hours", cart: "Cart" },
-  intro: { skip: "Skip intro" },
   hero: {
     title: "Smashed hot. Stacked high.",
     sub: `Freshly smashed, ready in 20 minutes. Pick up or get it delivered in ${BRAND.area.en}.`,

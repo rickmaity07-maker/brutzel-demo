@@ -1,6 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
+
+/** A clock that ticks every 15 s in the browser and is null on the server (no hydration mismatch). */
+const TICK = 15000;
+const subscribeClock = (cb: () => void) => {
+  const id = setInterval(cb, TICK);
+  return () => clearInterval(id);
+};
+const clockSnapshot = () => Math.floor(Date.now() / TICK) * TICK;
+const serverClock = () => null;
 import { CheckCircle, Clock, Moped } from "@phosphor-icons/react";
 import { BRAND, brandAddress } from "@/brand.config";
 import { useLang } from "@/components/LangProvider";
@@ -17,7 +26,7 @@ export function StatusTracker(props: { code: string; mode: OrderMode; initial: O
   const { t, lang } = useLang();
   const [status, setStatus] = useState<OrderStatus>(props.initial);
   // set after mount only, so server and client render the same markup
-  const [now, setNow] = useState<number | null>(null);
+  const now = useSyncExternalStore(subscribeClock, clockSnapshot, serverClock);
   const steps: OrderStatus[] =
     props.mode === "delivery" ? ["new", "preparing", "out", "done"] : ["new", "preparing", "ready", "done"];
   const finished = status === "done" || status === "cancelled";
@@ -40,12 +49,6 @@ export function StatusTracker(props: { code: string; mode: OrderMode; initial: O
       clearInterval(id);
     };
   }, [props.code, finished]);
-
-  useEffect(() => {
-    setNow(Date.now());
-    const id = setInterval(() => setNow(Date.now()), 15000);
-    return () => clearInterval(id);
-  }, []);
 
   const dueAt = new Date(props.createdAt).getTime() + BRAND.prepMinutes[props.mode] * 60000;
   const minutesLeft = now === null ? null : Math.max(0, Math.ceil((dueAt - now) / 60000));
