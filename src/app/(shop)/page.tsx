@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { preload } from "react-dom";
 import {
   ArrowRight,
   Bicycle,
@@ -43,6 +44,8 @@ export async function generateMetadata({
 
 export default async function HomePage({ searchParams }: PageProps<"/">) {
   const forName = pitchName((await searchParams).for);
+  // the hero poster is the largest paint on every screen size
+  preload("/video/hero-zerog-start.webp", { as: "image", fetchPriority: "high" });
   const [{ lang, t }, menu, settings] = await Promise.all([
     getDict(),
     getMenu(),
