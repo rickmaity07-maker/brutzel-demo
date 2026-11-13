@@ -3,6 +3,7 @@ import { CartDrawer } from "@/components/shop/CartDrawer";
 import { ItemSheet } from "@/components/shop/ItemSheet";
 import { SiteHeader } from "@/components/shop/SiteHeader";
 import { SiteFooter } from "@/components/shop/SiteFooter";
+import { SmoothScroll } from "@/components/shop/SmoothScroll";
 import { getExtras, getMenu, getSettings } from "@/lib/data";
 
 export default async function ShopLayout({ children }: LayoutProps<"/">) {
@@ -10,10 +11,11 @@ export default async function ShopLayout({ children }: LayoutProps<"/">) {
   return (
     <ShopProvider menu={menu} extras={extras} comboCents={settings.combo.price_cents} delivery={settings.delivery}>
       <SiteHeader />
-      <main>{children}</main>
+      <main id="main" className="w-full max-w-full overflow-x-clip pt-24">{children}</main>
       <SiteFooter />
       <CartDrawer />
       <ItemSheet />
+      <SmoothScroll />
     </ShopProvider>
   );
 }

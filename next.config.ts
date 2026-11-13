@@ -27,6 +27,8 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   // cacheComponents is off: nearly every page reads the language cookie or live order data.
   poweredByHeader: false,
+  // the pitch share card reads its background photo from disk
+  outputFileTracingIncludes: { "/api/og": ["./public/og-base.jpg"] },
   images: { formats: ["image/avif", "image/webp"] },
   turbopack: {
     rules: {
@@ -39,6 +41,12 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       { source: "/:path*", headers: securityHeaders },
+      // Flow clips, posters and frame sequences are big and rarely change; file names are not
+      // hashed, so cache for a day and refresh in the background after that.
+      ...["/video/:path*", "/frames/:path*", "/img/:path*"].map((source) => ({
+        source,
+        headers: [{ key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" }],
+      })),
       {
         source: "/admin/:path*",
         headers: [

@@ -44,7 +44,7 @@ export function KitchenScreen({ initial }: { initial: OrderView[] }) {
           {tickets.map((o) => {
             const age = minutesAgo(o.created_at, now);
             return (
-              <article key={o.id} className="flex flex-col rounded-[var(--radius-card)] bg-grill p-5 text-grill-ink">
+              <article key={o.id} className="flex flex-col rounded-[var(--radius-card)] border border-line bg-card p-5 text-ink">
                 <header className="mb-4 flex items-baseline justify-between">
                   <span className="font-mono text-3xl font-bold">#{o.code}</span>
                   <span className={`text-lg font-semibold tabular-nums ${age >= 15 ? "text-ketchup" : "opacity-70"}`}>

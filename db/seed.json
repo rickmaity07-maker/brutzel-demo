@@ -1,0 +1,285 @@
+{
+  "items": [
+    {
+      "slug": "brutzler",
+      "category": "burger",
+      "name_de": "Der Brutzler",
+      "name_en": "The Brutzler",
+      "desc_de": "Doppelt gesmashtes Rind, Cheddar, Röstzwiebeln, Gurke, Haussoße.",
+      "desc_en": "Double smashed beef, cheddar, crispy onions, pickles, house sauce.",
+      "price_cents": 990,
+      "image": "/img/b1.jpg",
+      "tag": null
+    },
+    {
+      "slug": "garten",
+      "category": "burger",
+      "name_de": "Gartenburger",
+      "name_en": "Garden Burger",
+      "desc_de": "Rind, Tomate, Eisbergsalat, rote Zwiebel, Mayo im Brioche.",
+      "desc_en": "Beef, tomato, iceberg, red onion, mayo on brioche.",
+      "price_cents": 890,
+      "image": "/img/b3.jpg",
+      "tag": null
+    },
+    {
+      "slug": "speckig",
+      "category": "burger",
+      "name_de": "Speckig",
+      "name_en": "Bacon Stack",
+      "desc_de": "Rind, knuspriger Bacon, Cheddar, Salat, Tomate, Ketchup.",
+      "desc_en": "Beef, crispy bacon, cheddar, lettuce, tomato, ketchup.",
+      "price_cents": 1090,
+      "image": "/img/b6.jpg",
+      "tag": null
+    },
+    {
+      "slug": "doppeldecker",
+      "category": "burger",
+      "name_de": "Doppeldecker",
+      "name_en": "Double Decker",
+      "desc_de": "Zwei Patties, doppelt Käse, sonst nichts. Für Puristen.",
+      "desc_en": "Two patties, double cheese, nothing else. For purists.",
+      "price_cents": 1190,
+      "image": "/img/b7.jpg",
+      "tag": null
+    },
+    {
+      "slug": "rotlicht",
+      "category": "burger",
+      "name_de": "Rotlicht",
+      "name_en": "Red Light",
+      "desc_de": "Rind, Jalapeños, Pepper Jack, Chipotle-Mayo, rote Zwiebel.",
+      "desc_en": "Beef, jalapeños, pepper jack, chipotle mayo, red onion.",
+      "price_cents": 1090,
+      "image": "/img/b4.jpg",
+      "tag": "hot"
+    },
+    {
+      "slug": "feld",
+      "category": "burger",
+      "name_de": "Feldburger",
+      "name_en": "Field Burger",
+      "desc_de": "Gegrilltes Bohnen-Patty, Avocado, Tomate, Kräutermayo.",
+      "desc_en": "Grilled bean patty, avocado, tomato, herb mayo.",
+      "price_cents": 950,
+      "image": "/img/b5.jpg",
+      "tag": "veggie"
+    },
+    {
+      "slug": "knusper",
+      "category": "chicken",
+      "name_de": "Knusperhähnchen",
+      "name_en": "Crispy Chicken",
+      "desc_de": "Sechs Stücke, in Buttermilch eingelegt, mit Honig-Senf-Dip.",
+      "desc_en": "Six pieces, buttermilk-brined, with honey mustard dip.",
+      "price_cents": 890,
+      "image": "/img/n1.jpg",
+      "tag": null
+    },
+    {
+      "slug": "tenders",
+      "category": "chicken",
+      "name_de": "Tenders & Ranch",
+      "name_en": "Tenders & Ranch",
+      "desc_de": "Hähnchenstreifen, Sellerie, hausgemachter Ranch-Dip.",
+      "desc_en": "Chicken strips, celery, house ranch dip.",
+      "price_cents": 790,
+      "image": "/img/g1.jpg",
+      "tag": "new"
+    },
+    {
+      "slug": "pommes",
+      "category": "sides",
+      "name_de": "Pommes",
+      "name_en": "Fries",
+      "desc_de": "Dick geschnitten, zweimal frittiert, Meersalz.",
+      "desc_en": "Thick cut, double fried, sea salt.",
+      "price_cents": 390,
+      "image": "/img/f2.jpg",
+      "tag": "veggie"
+    },
+    {
+      "slug": "korbpommes",
+      "category": "sides",
+      "name_de": "Rosmarinpommes",
+      "name_en": "Rosemary Fries",
+      "desc_de": "Mit Rosmarin, Knoblauch und Parmesan.",
+      "desc_en": "With rosemary, garlic and parmesan.",
+      "price_cents": 490,
+      "image": "/img/f3.jpg",
+      "tag": "veggie"
+    },
+    {
+      "slug": "burgerpommes",
+      "category": "sides",
+      "name_de": "Burger & Pommes Teller",
+      "name_en": "Burger & Fries Plate",
+      "desc_de": "Brutzler mit großer Portion Pommes und zwei Dips.",
+      "desc_en": "Brutzler with a large fries and two dips.",
+      "price_cents": 1390,
+      "image": "/img/b8.jpg",
+      "tag": null
+    },
+    {
+      "slug": "keksshake",
+      "category": "shakes",
+      "name_de": "Keks-Shake",
+      "name_en": "Cookie Shake",
+      "desc_de": "Vanilleeis, Schokokekse, Sahne.",
+      "desc_en": "Vanilla ice cream, chocolate cookies, cream.",
+      "price_cents": 550,
+      "image": "/img/s1.jpg",
+      "tag": null
+    },
+    {
+      "slug": "vanilleshake",
+      "category": "shakes",
+      "name_de": "Vanille-Shake",
+      "name_en": "Vanilla Shake",
+      "desc_de": "Bourbon-Vanille, frische Vollmilch.",
+      "desc_en": "Bourbon vanilla, fresh whole milk.",
+      "price_cents": 490,
+      "image": null,
+      "tag": null
+    },
+    {
+      "slug": "limo",
+      "category": "drinks",
+      "name_de": "Zitronenlimo",
+      "name_en": "Lemonade",
+      "desc_de": "Hausgemacht, 0,4 l.",
+      "desc_en": "House-made, 0.4 l.",
+      "price_cents": 350,
+      "image": null,
+      "tag": null
+    },
+    {
+      "slug": "eistee",
+      "category": "drinks",
+      "name_de": "Pfirsich-Eistee",
+      "name_en": "Peach Iced Tea",
+      "desc_de": "Hausgemacht, 0,4 l.",
+      "desc_en": "House-made, 0.4 l.",
+      "price_cents": 350,
+      "image": null,
+      "tag": null
+    },
+    {
+      "slug": "cola",
+      "category": "drinks",
+      "name_de": "Cola",
+      "name_en": "Cola",
+      "desc_de": "0,33 l Dose.",
+      "desc_en": "0.33 l can.",
+      "price_cents": 290,
+      "image": null,
+      "tag": null
+    },
+    {
+      "slug": "wasser",
+      "category": "drinks",
+      "name_de": "Wasser",
+      "name_en": "Water",
+      "desc_de": "Still oder sprudelnd, 0,5 l.",
+      "desc_en": "Still or sparkling, 0.5 l.",
+      "price_cents": 250,
+      "image": null,
+      "tag": null
+    }
+  ],
+  "extras": [
+    {
+      "slug": "kaese",
+      "name_de": "Extra Käse",
+      "name_en": "Extra cheese",
+      "price_cents": 80
+    },
+    {
+      "slug": "bacon",
+      "name_de": "Bacon",
+      "name_en": "Bacon",
+      "price_cents": 150
+    },
+    {
+      "slug": "jalapenos",
+      "name_de": "Jalapeños",
+      "name_en": "Jalapeños",
+      "price_cents": 60
+    },
+    {
+      "slug": "patty",
+      "name_de": "Extra Patty",
+      "name_en": "Extra patty",
+      "price_cents": 290
+    },
+    {
+      "slug": "avocado",
+      "name_de": "Avocado",
+      "name_en": "Avocado",
+      "price_cents": 120
+    }
+  ],
+  "settings": {
+    "hours": [
+      {
+        "day": 1,
+        "open": "11:30",
+        "close": "22:00",
+        "closed": true
+      },
+      {
+        "day": 2,
+        "open": "11:30",
+        "close": "22:00",
+        "closed": false
+      },
+      {
+        "day": 3,
+        "open": "11:30",
+        "close": "22:00",
+        "closed": false
+      },
+      {
+        "day": 4,
+        "open": "11:30",
+        "close": "22:00",
+        "closed": false
+      },
+      {
+        "day": 5,
+        "open": "11:30",
+        "close": "23:30",
+        "closed": false
+      },
+      {
+        "day": 6,
+        "open": "11:30",
+        "close": "23:30",
+        "closed": false
+      },
+      {
+        "day": 0,
+        "open": "13:00",
+        "close": "22:00",
+        "closed": false
+      }
+    ],
+    "combo": {
+      "price_cents": 450
+    },
+    "delivery": {
+      "fee_cents": 250,
+      "min_cents": 1500,
+      "postcodes": [
+        "50667",
+        "50668",
+        "50670",
+        "50672",
+        "50674",
+        "50676",
+        "50677"
+      ]
+    }
+  }
+}

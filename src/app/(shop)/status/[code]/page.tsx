@@ -22,7 +22,7 @@ export default async function StatusPage({ params }: PageProps<"/status/[code]">
         {fill(t.status.thanks, { name: order.customer_name.split(" ")[0] })}
       </h1>
 
-      <StatusTracker code={order.code} mode={order.mode} initial={order.status} />
+      <StatusTracker code={order.code} mode={order.mode} initial={order.status} createdAt={order.created_at} />
 
       <section className="mt-10 rounded-[var(--radius-card)] bg-card p-6">
         <ul className="divide-y divide-line">
